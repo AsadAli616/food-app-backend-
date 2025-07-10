@@ -13,5 +13,6 @@ export const typeOrmConfig = (): TypeOrmModuleOptions => ({
   database:"food-app",
 
   entities: entities,
-  synchronize: process.env.APP_ENV === 'development',
+  synchronize:true,
 })
+//  process.env.APP_ENV === 'development'

@@ -1,7 +1,7 @@
 import { Exclude } from 'class-transformer';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity("users")
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -26,8 +26,8 @@ export class User {
   profilePicture: string;
   @Column({ default: null , length: 100 ,type: 'varchar',nullable: false })
   full_Name: string;
-  @Column({ default: null , type: 'date', nullable: false })
-  dateOfBirth: Date;
+  @Column({ default: null , type: 'varchar', nullable: false })
+  dateOfBirth: string;
   @Column({ default: null, nullable: true })
   code:number
   }

@@ -7,8 +7,8 @@ export class CreateUserDto {
     email: string;
     @IsString()
     password: string;
-    @IsDateString()
-    dateOfBirth: Date;
+    @IsString()
+    dateOfBirth: string;
     @IsPhoneNumber()
     phoneNumber: string;
 
