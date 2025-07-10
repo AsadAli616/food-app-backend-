@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto, SiginAuthDto } from './dto/create-auth.dto';
+import { CreateAuthDto, SiginAuthDto, VerifyUserAuthDto } from './dto/create-auth.dto';
 
 
 @Controller('auth')
@@ -20,6 +20,9 @@ export class AuthController {
   async sigin(@Body() signupDto:SiginAuthDto ){
     return this.authService.sigin(signupDto);
   }
-
+  @Post('verify-email')
+  async verify(@Body() verifyUser:VerifyUserAuthDto ){
+    return this.authService.verifyUser(verifyUser);
+  }
 }
 

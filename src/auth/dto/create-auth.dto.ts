@@ -19,4 +19,10 @@ export class SiginAuthDto{
     @IsString()
     password:string
 }
+export class VerifyUserAuthDto{
+    @IsEmail()
+    email:string
+    @IsNumber()
+    code:number
+}
 

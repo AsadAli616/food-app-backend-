@@ -1,5 +1,5 @@
 import { BadGatewayException, BadRequestException, Injectable } from '@nestjs/common';
-import { CreateAuthDto, SiginAuthDto } from './dto/create-auth.dto';
+import { CreateAuthDto, SiginAuthDto, VerifyUserAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UserService } from "../user/user.service"
 import * as bcrypt from 'bcrypt';
@@ -8,6 +8,7 @@ import { MailService } from 'src/mail/mail.service';
 import { JwtService } from '@nestjs/jwt';
 import * as jwt from 'jsonwebtoken';
 import { ConfigService } from '@nestjs/config';
+import { User } from 'src/user/entities/user.entity';
 @Injectable()
 export class AuthService {
   constructor(
@@ -73,4 +74,31 @@ export class AuthService {
       data: user
     }
   }
+  async verifyUser(verify:VerifyUserAuthDto){
+  let user : User | null= await this.userService.findOne({ email: verify.email });
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    if(user.code!=verify.code){
+      throw new BadRequestException('Wrong Verification Code found');
+    }
+      
+      
+      user.isEmailVerified=true
+     
+     const UpdatedUser = await this.userService.updateUser(user)
+    
+ const payload = {
+      id: user.id,
+      email: user.email,
+      full_Name: user.full_Name
+    }
+    return {
+      token: await this.genrateToken({ payload }),
+      data: UpdatedUser
+    }
+    }
+
+
+
 }

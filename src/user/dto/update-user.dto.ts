@@ -6,6 +6,7 @@ import {
     IsString,
     IsDate,
     IsPhoneNumber,
+    IsNumber,
 
 } from 'class-validator';
 
@@ -34,5 +35,8 @@ export class UpdateUserDto {
     @IsOptional()
     @IsString()
     CardId: string;
+    @IsOptional()
+    @IsNumber()
+    code:number;
 
 }

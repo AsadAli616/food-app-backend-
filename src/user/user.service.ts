@@ -17,7 +17,11 @@ async findOne(where: FindOptionsWhere<User>): Promise<User | null> {
 }
 async signup(createUserDto: CreateUserDto) {
  const insertUser = this.userRepository.create(createUserDto)
-  return this.userRepository.save(insertUser)}
+  return this.userRepository.save(insertUser)
+}
 
-
+async updateUser(updateUser:Partial<User>){
+return await this.userRepository.save(updateUser)
+  // return this.userRepository.save(UpdateUser)
+}
 }
