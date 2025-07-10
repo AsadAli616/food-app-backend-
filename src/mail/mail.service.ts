@@ -20,7 +20,7 @@ export class MailService {
 
   async sendEmail(to: string, subject: string, text: string) {
     const info = await this.transporter.sendMail({
-      from: '"Your App Name" <your-email@gmail.com>',
+      from: '"asadali428@killergmail.com',
       to,
       subject,
       text,

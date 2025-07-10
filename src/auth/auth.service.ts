@@ -1,16 +1,75 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { BadGatewayException, BadRequestException, Injectable } from '@nestjs/common';
+import { CreateAuthDto, SiginAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
-import {UserService} from "../user/user.service"
+import { UserService } from "../user/user.service"
+import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { MailService } from 'src/mail/mail.service';
+import { JwtService } from '@nestjs/jwt';
+import * as jwt from 'jsonwebtoken';
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UserService
-  ){}
- async signup(createAuthDto:CreateUserDto) {
-    return this.userService.signup(createAuthDto)
+    private userService: UserService,
+    private mailService: MailService,
+    private jwtService: JwtService,
+    private configService: ConfigService
+  ) { }
+  async hashPassword(password: string): Promise<string> {
+    return await bcrypt.hash(password, 10)
+  }
+  randomNumber() {
+    return Math.round(Math.random() * 10000);
+  }
+  async genrateToken(payload: object): Promise<string> {
+    const key = this.configService.get("JWT_SECRET")
+    return jwt.sign(payload, key, { expiresIn: "12m" })
+  }
+  async signup(createAuthDto: CreateAuthDto) {
+    const findUser = await this.userService.findOne({ email: createAuthDto.email })
+
+    if (findUser) {
+      throw new BadRequestException("User already exist ")
+    }
+    const randomNumber = this.randomNumber()
+
+    createAuthDto.password = await this.hashPassword(createAuthDto.password)
+    const user = {
+      ...createAuthDto,
+      code: randomNumber
+    }
+    await this.mailService.sendEmail(createAuthDto.email, ` Verification `, `Code is ${randomNumber}`)
+    const data = await this.userService.signup(user)
+    const payload = {
+      id: data.id,
+      email: data.email,
+      full_Name: data.full_Name
+    }
+    return {
+      token: await this.genrateToken(payload),
+      user: data
+    }
+  }
+  async sigin(siginDto: SiginAuthDto) {
+    const user = await this.userService.findOne({ email: siginDto.email });
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    const isValidPassword = await bcrypt.compare(siginDto.password, user.password);
+    if (!isValidPassword) {
+      throw new BadRequestException('Wrong password');
+    }
+    const payload = {
+      id: user.id,
+      email: user.email,
+      full_Name: user.full_Name
+    }
+    return {
+      token: await this.genrateToken({ payload }),
+      data: user
+    }
   }
 
- 
 }

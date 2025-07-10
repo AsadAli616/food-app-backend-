@@ -1,18 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { BadGatewayException, Injectable } from '@nestjs/common';
+import { CreateUserDto, SiginDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import { FindOptionsWhere, Repository } from 'typeorm';
+
+import { MailService } from 'src/mail/mail.service';
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private userRepository: Repository<User>
   ){}
+async findOne(where: FindOptionsWhere<User>): Promise<User | null> {
+  return await this.userRepository.findOne({ where });
+}
 async signup(createUserDto: CreateUserDto) {
-  createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
-  const user = this.userRepository.create(createUserDto)
-  return this.userRepository.save(user)}
+ const insertUser = this.userRepository.create(createUserDto)
+  return this.userRepository.save(insertUser)}
+
+
 }
