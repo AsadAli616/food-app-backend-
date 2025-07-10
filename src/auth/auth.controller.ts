@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto, SiginAuthDto, VerifyUserAuthDto } from './dto/create-auth.dto';
+import { CreateAuthDto, ForgetPasswordDto, ResetPasswordDto, SiginAuthDto, VerifyUserAuthDto } from './dto/create-auth.dto';
 
 
 @Controller('auth')
@@ -23,6 +23,14 @@ export class AuthController {
   @Post('verify-email')
   async verify(@Body() verifyUser:VerifyUserAuthDto ){
     return this.authService.verifyUser(verifyUser);
+  }
+  @Post('forgot-password')
+  async forgotPassword(@Body() forgetPasswordDto:ForgetPasswordDto ){
+    return this.authService.forgorPassword(forgetPasswordDto);
+  }
+   @Post('reset-password')
+  async resetPassword(@Body() resetPassword:ResetPasswordDto ){
+    return this.authService.resetPassword(resetPassword);
   }
 }
 

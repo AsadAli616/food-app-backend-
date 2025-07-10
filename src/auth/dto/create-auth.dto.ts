@@ -11,18 +11,31 @@ export class CreateAuthDto {
     dateOfBirth: string;
     @IsPhoneNumber()
     phoneNumber: string;
-  
+
 }
-export class SiginAuthDto{
+export class SiginAuthDto {
     @IsEmail()
-    email:string
+    email: string
     @IsString()
-    password:string
+    password: string
 }
-export class VerifyUserAuthDto{
+export class VerifyUserAuthDto {
     @IsEmail()
-    email:string
+    email: string
     @IsNumber()
-    code:number
+    code: number
 }
 
+export class ResetPasswordDto {
+    @IsNumber()
+    code: number
+    @IsString()
+    password: string
+    @IsEmail()
+    email: string
+}
+
+export class ForgetPasswordDto {
+    @IsEmail()
+    email: string
+}
