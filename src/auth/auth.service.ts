@@ -56,7 +56,9 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException('User not found');
     }
-
+    if(!user.isEmailVerified){
+      throw new BadRequestException('Verify your Account');
+}
     const isValidPassword = await bcrypt.compare(siginDto.password, user.password);
     if (!isValidPassword) {
       throw new BadRequestException('Wrong password');
@@ -71,5 +73,4 @@ export class AuthService {
       data: user
     }
   }
-
 }
