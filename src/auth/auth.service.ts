@@ -9,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as jwt from 'jsonwebtoken';
 import { ConfigService } from '@nestjs/config';
 import { User } from 'src/user/entities/user.entity';
+import { UserROLE } from 'src/eums/user.enum';
 @Injectable()
 export class AuthService {
   constructor(
@@ -47,8 +48,7 @@ export class AuthService {
       full_Name: data.full_Name
     }
     return {
-      token: await this.genrateToken(payload),
-      user: data
+      message: 'Verification code sent to your email'
     }
   }
   async sigin(siginDto: SiginAuthDto) {
@@ -131,5 +131,9 @@ export class AuthService {
     
     
    }
-
+   async sigupResturant(createAuthDto: CreateAuthDto){
+    createAuthDto["role"]=UserROLE.RESTAURANT
+    return await this.signup(createAuthDto)
+      
+   }
 }

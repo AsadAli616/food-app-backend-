@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { UserROLE } from 'src/eums/user.enum';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity("users")
@@ -10,8 +11,8 @@ export class User {
   @Column({ nullable: false , length: 100 ,type: 'varchar'})
   @Exclude()
   password: string;
-  @Column({default: "customer"})
-  role: string;
+  @Column({default: UserROLE.USER ,enum:UserROLE ,nullable:true ,type:"enum"})
+  role: UserROLE;
   @Column({ default: true , type: 'boolean' })
   isActive: boolean;
   @Column({ default: false , type: 'boolean' })

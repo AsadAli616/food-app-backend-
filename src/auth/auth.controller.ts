@@ -10,13 +10,13 @@ export class AuthController {
 
   ) {}
 
-  @Post("sigup")
+  @Post("signup")
   async signup(@Body() signupDto: CreateAuthDto) {
     
     return this.authService.signup(signupDto);
   }
 
-  @Post('sigin')
+  @Post('signin')
   async sigin(@Body() signupDto:SiginAuthDto ){
     return this.authService.sigin(signupDto);
   }
@@ -31,6 +31,11 @@ export class AuthController {
    @Post('reset-password')
   async resetPassword(@Body() resetPassword:ResetPasswordDto ){
     return this.authService.resetPassword(resetPassword);
+  }
+  
+  @Post("signup-resturant")
+  async signupResturant(@Body() signupDto: CreateAuthDto) {
+    return this.authService.sigupResturant(signupDto);
   }
 }
 
