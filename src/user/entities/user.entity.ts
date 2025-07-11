@@ -1,6 +1,7 @@
 import { Exclude } from 'class-transformer';
 import { UserROLE } from 'src/eums/user.enum';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Item } from 'src/items/entities/item.entity';
+import { Entity, Column, PrimaryGeneratedColumn ,OneToMany} from 'typeorm';
 
 @Entity("users")
 export class User {
@@ -31,4 +32,6 @@ export class User {
   dateOfBirth: string;
   @Column({ default: null, nullable: true })
   code:number
+  @OneToMany(() => Item, (item:any) => item.user)
+  items: Item[];
   }

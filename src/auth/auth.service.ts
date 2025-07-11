@@ -128,8 +128,6 @@ export class AuthService {
       token: await this.genrateToken({ payload }),
       data: user
     }
-    
-    
    }
    async sigupResturant(createAuthDto: CreateAuthDto){
     createAuthDto["role"]=UserROLE.RESTAURANT
