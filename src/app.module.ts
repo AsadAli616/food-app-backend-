@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { typeOrmConfig } from './config/typeorm.config';
 import { ItemsModule } from './items/items.module';
+import { ResturantModule } from './resturant/resturant.module';
 
 
 @Module({
@@ -18,7 +19,7 @@ import { ItemsModule } from './items/items.module';
       inject: [ConfigService],
       useFactory: typeOrmConfig,
     }),
-    UserModule, AuthModule, ItemsModule,  
+    UserModule, AuthModule, ItemsModule, ResturantModule,  
     ],
   controllers: [AppController],
   providers: [AppService],

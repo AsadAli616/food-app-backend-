@@ -12,13 +12,8 @@ export class ItemsService {
       private itemRepository: Repository<Item>
   ) {}
  async create(createItemDto: CreateItemDto) {
-    const newItem = this.itemRepository.create(createItemDto);
+  const newItem = this.itemRepository.create(createItemDto);
    return await this.itemRepository.save(newItem);
-     
-  }
-
-  findAll() {
-    return `This action returns all items`;
   }
 
  async findOne(where: FindOptionsWhere<Item>): Promise<Item | null> {
