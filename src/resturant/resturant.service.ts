@@ -1,26 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, Injectable } from '@nestjs/common';
 import { CreateResturantDto } from './dto/create-resturant.dto';
 import { UpdateResturantDto } from './dto/update-resturant.dto';
+import { ItemsService } from 'src/items/items.service';
+import { Item } from 'src/items/entities/item.entity';
 
 @Injectable()
 export class ResturantService {
-  create(createResturantDto: CreateResturantDto) {
-    return 'This action adds a new resturant';
+  constructor(
+    private itemsService: ItemsService
+  ){}
+async create(createResturantDto: CreateResturantDto) {
+    return await this.itemsService.create(createResturantDto)
   }
+async update(id: number, updateResturantDto: Partial<Item>) {
+  const item = await this.itemsService.findOne({ id });
+  if (!item) {
+    throw new BadGatewayException('Item not found');
+  }
+  const updatedItem = { ...item, ...updateResturantDto };
 
-  findAll() {
-    return `This action returns all resturant`;
-  }
+  return await this.itemsService.update(updatedItem );
+}
 
-  findOne(id: number) {
-    return `This action returns a #${id} resturant`;
+async remove(id: number) {
+  const item = await this.itemsService.findOne({ id });
+  if (!item) {
+    throw new BadGatewayException('Item not found');
   }
-
-  update(id: number, updateResturantDto: UpdateResturantDto) {
-    return `This action updates a #${id} resturant`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} resturant`;
-  }
+  
+  return await this.itemsService.remove(item);
+}
 }

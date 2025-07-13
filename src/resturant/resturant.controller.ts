@@ -7,10 +7,17 @@ import { UpdateResturantDto } from './dto/update-resturant.dto';
 export class ResturantController {
   constructor(private readonly resturantService: ResturantService) {}
 
-  @Post("create")
+  @Post("add")
   create(@Body() createResturantDto: CreateResturantDto) {
     return this.resturantService.create(createResturantDto);
   }
 
-
+  @Delete("delete/:id")
+ async  remove(@Param("id") id: number) {
+    return await this.resturantService.remove(id);
+  }
+@Patch("update-item/:id")
+ async update(@Param("id") id: number, @Body() updateResturantDto: UpdateResturantDto) {
+    return await this.resturantService.update(id, updateResturantDto);
+  } 
 }

@@ -7,10 +7,5 @@ import { UpdateItemDto } from './dto/update-item.dto';
 export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
 
-  @Post()
-  create(@Body() createItemDto: CreateItemDto) {
-    return this.itemsService.create(createItemDto);
-  }
 
-  
 }
