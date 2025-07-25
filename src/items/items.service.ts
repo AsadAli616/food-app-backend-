@@ -15,16 +15,13 @@ async create(createItemDto: CreateItemDto) {
 const newItem = this.itemRepository.create(createItemDto);
 return await this.itemRepository.save(newItem);
   }
-
- async findOne(where: FindOptionsWhere<Item>): Promise<Item | null> {
+async findOne(where: FindOptionsWhere<Item>): Promise<Item | null> {
    return await this.itemRepository.findOne({ where });
  }
-
-  async update( updateItemDto: Partial<Item>) {
+async update( updateItemDto: Partial<Item>) {
   return await this.itemRepository.save(updateItemDto);
   }
-
- async remove(updateItemDto: Item) {
+async remove(updateItemDto: Item) {
     return await this.itemRepository.remove(updateItemDto);
   }
 }
