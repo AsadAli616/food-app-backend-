@@ -11,7 +11,7 @@ export const typeOrmConfig = (): TypeOrmModuleOptions => ({
   host: "localhost",
   port: parseInt(process.env.DB_PORT ?? '3306'),
   username:"root",
-  password:"",
+  password:"123456",
   database:"food-app",
 
   entities: entities,

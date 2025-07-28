@@ -40,13 +40,10 @@ export class AuthService {
       ...createAuthDto,
       code: randomNumber
     }
-    await this.mailService.sendEmail(createAuthDto.email, ` Verification `, `Code is ${randomNumber}`)
+    console.log("createAuthDto",createAuthDto)
+    await this.mailService.sendEmail(createAuthDto?.email, ` Verification `, `Code is ${randomNumber}`)
     const data = await this.userService.signup(user)
-    const payload = {
-      id: data.id,
-      email: data.email,
-      full_Name: data.full_Name
-    }
+   
     return {
       message: 'Verification code sent to your email'
     }
@@ -66,7 +63,8 @@ export class AuthService {
     const payload = {
       id: user.id,
       email: user.email,
-      full_Name: user.full_Name
+      full_Name: user.full_Name,
+      role:user.role
     }
     return {
       token: await this.genrateToken({ payload }),
@@ -87,7 +85,8 @@ export class AuthService {
     const payload = {
       id: user.id,
       email: user.email,
-      full_Name: user.full_Name
+      full_Name: user.full_Name,
+      role:user.role
     }
     return {
       token: await this.genrateToken({ payload }),
@@ -121,7 +120,8 @@ export class AuthService {
     const payload = {
       id: user.id,
       email: user.email,
-      full_Name: user.full_Name
+      full_Name: user.full_Name,
+      role:user.role
     }
 
     return {
@@ -129,8 +129,8 @@ export class AuthService {
       data: user
     }
    }
-   async sigupResturant(createAuthDto: CreateAuthDto){
-    createAuthDto["role"]=UserROLE.RESTAURANT
+   async sigupResturant (createAuthDto: CreateAuthDto){
+    createAuthDto["role"] = UserROLE.RESTAURANT
     return await this.signup(createAuthDto)
       
    }

@@ -1,8 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ResturantService } from './resturant.service';
 import { CreateResturantDto } from './dto/create-resturant.dto';
 import { UpdateResturantDto } from './dto/update-resturant.dto';
-
+import { AuthGuard } from 'src/helper/auth.guard';
+import { RolesGuard } from 'src/helper/role.guard';
+import { Roles } from 'src/common/roles.decorator';
+import { UserROLE } from 'src/eums/user.enum';
+@UseGuards(AuthGuard,RolesGuard)
+@Roles(UserROLE.RESTAURANT)
 @Controller('resturant')
 export class ResturantController {
   constructor(private readonly resturantService: ResturantService) {}
