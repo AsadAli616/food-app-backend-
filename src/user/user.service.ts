@@ -10,18 +10,21 @@ import { MailService } from 'src/mail/mail.service';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>
-  ){}
-async findOne(where: FindOptionsWhere<User>): Promise<User | null> {
-  return await this.userRepository.findOne({ where });
-}
-async signup(createUserDto: CreateUserDto) {
- const insertUser = this.userRepository.create(createUserDto)
-  return this.userRepository.save(insertUser)
-}
+    private userRepository: Repository<User>,
+  ) {}
+  async findOne(where: FindOptionsWhere<User>): Promise<User | null> {
+    return await this.userRepository.findOne({
+      where: { ...where },
+      relations: ['items', 'addresses'],
+    });
+  }
+  async signup(createUserDto: CreateUserDto) {
+    const insertUser = this.userRepository.create(createUserDto);
+    return this.userRepository.save(insertUser);
+  }
 
-async updateUser(updateUser:Partial<User>){
-return await this.userRepository.save(updateUser)
-  // return this.userRepository.save(UpdateUser)
-}
+  async updateUser(updateUser: Partial<User>) {
+    return await this.userRepository.save(updateUser);
+    // return this.userRepository.save(UpdateUser)
+  }
 }

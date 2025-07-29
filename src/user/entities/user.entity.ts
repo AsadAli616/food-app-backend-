@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { Address } from 'src/address/entities/address.entity';
 import { UserROLE } from 'src/eums/user.enum';
 import { Item } from 'src/items/entities/item.entity';
 import { Entity, Column, PrimaryGeneratedColumn ,OneToMany} from 'typeorm';
@@ -34,4 +35,6 @@ export class User {
   code:number
   @OneToMany(() => Item, (item:any) => item.user)
   items: Item[];
+  @OneToMany(() => Address, (address:any) => address.user)
+  addresses: Address[];
   }

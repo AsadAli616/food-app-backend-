@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { typeOrmConfig } from './config/typeorm.config';
 import { ItemsModule } from './items/items.module';
 import { ResturantModule } from './resturant/resturant.module';
+import { AddressModule } from './address/address.module';
 
 
 @Module({
@@ -19,7 +20,7 @@ import { ResturantModule } from './resturant/resturant.module';
       inject: [ConfigService],
       useFactory: typeOrmConfig,
     }),
-    UserModule, AuthModule, ItemsModule, ResturantModule,  
+    UserModule, AuthModule, ItemsModule, ResturantModule, AddressModule,  
     ],
   controllers: [AppController],
   providers: [AppService],
