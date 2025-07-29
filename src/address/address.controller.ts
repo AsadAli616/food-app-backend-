@@ -24,7 +24,7 @@ export class AddressController {
       ...createAddressDto,
       user: { id: req?.user?.id },
     };
-    return this.addressService.createAddress(address);
+    return await this.addressService.createAddress(address);
   }
 
   @Put('update/:id')
