@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { ResturantService } from './resturant.service';
 import { CreateResturantDto } from './dto/create-resturant.dto';
 import { UpdateResturantDto } from './dto/update-resturant.dto';
@@ -13,8 +13,13 @@ export class ResturantController {
   constructor(private readonly resturantService: ResturantService) {}
 
   @Post("add")
-  create(@Body() createResturantDto: CreateResturantDto) {
-    return this.resturantService.create(createResturantDto);
+  create(@Body() createResturantDto: CreateResturantDto ,@Req() req:Request&{ user: { id: number } }) {
+    const userId = req.user.id;
+    const resturantData = {
+      ...createResturantDto,
+      user: { id: userId },
+    };
+    return this.resturantService.create(resturantData);
   }
 
   @Delete("delete/:id")
