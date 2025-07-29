@@ -2,6 +2,7 @@ import { Exclude } from 'class-transformer';
 import { Address } from 'src/address/entities/address.entity';
 import { UserROLE } from 'src/eums/user.enum';
 import { Item } from 'src/items/entities/item.entity';
+import { Order } from 'src/order/entities/order.entity';
 import { Entity, Column, PrimaryGeneratedColumn ,OneToMany} from 'typeorm';
 
 @Entity("users")
@@ -37,4 +38,6 @@ export class User {
   items: Item[];
   @OneToMany(() => Address, (address:any) => address.user)
   addresses: Address[];
+  @OneToMany(() => Order, (order:any) => order.user)
+  orders: Order[];
   }

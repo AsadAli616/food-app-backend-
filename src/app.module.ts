@@ -9,6 +9,8 @@ import { typeOrmConfig } from './config/typeorm.config';
 import { ItemsModule } from './items/items.module';
 import { ResturantModule } from './resturant/resturant.module';
 import { AddressModule } from './address/address.module';
+import { OrderOfProductModule } from './order-of-product/order-of-product.module';
+import { OrderModule } from './order/order.module';
 
 
 @Module({
@@ -20,7 +22,7 @@ import { AddressModule } from './address/address.module';
       inject: [ConfigService],
       useFactory: typeOrmConfig,
     }),
-    UserModule, AuthModule, ItemsModule, ResturantModule, AddressModule,  
+    UserModule, AuthModule, ItemsModule, ResturantModule, AddressModule, OrderOfProductModule, OrderModule,  
     ],
   controllers: [AppController],
   providers: [AppService],

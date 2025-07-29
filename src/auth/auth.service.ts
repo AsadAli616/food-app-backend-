@@ -161,4 +161,8 @@ export class AuthService {
     createAuthDto['role'] = UserROLE.RESTAURANT;
     return await this.signup(createAuthDto);
   }
+  async signupRider(createAuthDto: CreateAuthDto) {
+    createAuthDto['role'] = UserROLE.RIDER;
+    return await this.signup(createAuthDto);
+  }
 }

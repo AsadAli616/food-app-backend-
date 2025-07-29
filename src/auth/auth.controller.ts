@@ -12,7 +12,6 @@ export class AuthController {
 
   @Post("signup")
   async signup(@Body() signupDto: CreateAuthDto) {
-    
     return this.authService.signup(signupDto);
   }
 
@@ -36,6 +35,10 @@ export class AuthController {
   @Post("signup-resturant")
   async signupResturant(@Body() signupDto: CreateAuthDto) {
     return this.authService.sigupResturant(signupDto);
+  }
+  @Post("signup-rider")
+  async signupRider(@Body() signupDto: CreateAuthDto) { 
+    return this.authService.signupRider(signupDto);
   }
 }
 
