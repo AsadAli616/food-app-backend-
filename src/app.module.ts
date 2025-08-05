@@ -11,6 +11,7 @@ import { ResturantModule } from './resturant/resturant.module';
 import { AddressModule } from './address/address.module';
 import { OrderOfProductModule } from './order-of-product/order-of-product.module';
 import { OrderModule } from './order/order.module';
+import { ChatModule } from './chat/chat.module';
 
 
 @Module({
@@ -22,7 +23,7 @@ import { OrderModule } from './order/order.module';
       inject: [ConfigService],
       useFactory: typeOrmConfig,
     }),
-    UserModule, AuthModule, ItemsModule, ResturantModule, AddressModule, OrderOfProductModule, OrderModule,  
+    UserModule, AuthModule, ItemsModule, ResturantModule, AddressModule, OrderOfProductModule, OrderModule, ChatModule,  
     ],
   controllers: [AppController],
   providers: [AppService],
