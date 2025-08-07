@@ -52,15 +52,21 @@ export class AuthService {
       ...createAuthDto,
       code: randomNumber,
     };
-    console.log('createAuthDto', createAuthDto);
+
     await this.mailService.sendEmail(
       createAuthDto?.email,
       ` Verification `,
       `Code is ${randomNumber}`,
     );
     const data = await this.userService.signup(user);
-
+    const payload = {
+      id: data.id,
+      email: data.email,
+      full_Name: data.full_Name,
+      role: data.role,
+    };
     return {
+      token: await this.genrateToken({ payload }),
       message: 'Verification code sent to your email',
     };
   }
@@ -69,8 +75,17 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException('User not found');
     }
+    const payload = {
+      id: user.id,
+      email: user.email,
+      full_Name: user.full_Name,
+      role: user.role,
+    };
     if (!user.isEmailVerified) {
-      throw new BadRequestException('Verify your Account');
+      return {
+        token: await this.genrateToken({ payload }),
+        message: 'Please verify your email first',
+      };
     }
     const isValidPassword = await bcrypt.compare(
       siginDto.password,
@@ -79,12 +94,7 @@ export class AuthService {
     if (!isValidPassword) {
       throw new BadRequestException('Wrong password');
     }
-    const payload = {
-      id: user.id,
-      email: user.email,
-      full_Name: user.full_Name,
-      role: user.role,
-    };
+
     return {
       token: await this.genrateToken({ payload }),
       data: user,
@@ -92,7 +102,7 @@ export class AuthService {
   }
   async verifyUser(verify: VerifyUserAuthDto) {
     let user: User | null = await this.userService.findOne({
-      email: verify.email,
+      id: verify.userId,
     });
     if (!user) {
       throw new BadRequestException('User not found');
@@ -112,6 +122,32 @@ export class AuthService {
     return {
       token: await this.genrateToken({ payload }),
       data: UpdatedUser,
+    };
+  }
+  async resendVerificationCode(id: number) {
+    const user = await this.userService.findOne({ id });
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    if (user.isEmailVerified) {
+      throw new BadRequestException('Email already verified');
+    }
+
+    const randomNumber = this.randomNumber();
+    user.code = randomNumber;
+
+    await this.userService.updateUser(user);
+
+    await this.mailService.sendEmail(
+      user.email,
+      `Resend Verification`,
+      `Your new verification code is ${randomNumber}`,
+    );
+
+    return {
+      message: 'Verification code resent to your email',
     };
   }
   async forgorPassword(forgetPasswordDto: ForgetPasswordDto) {
