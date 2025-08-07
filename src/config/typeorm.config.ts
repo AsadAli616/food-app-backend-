@@ -8,13 +8,22 @@ import { OrderOfProducts } from 'src/order-of-product/entities/order-of-product.
 import { Order } from 'src/order/entities/order.entity';
 import { User } from 'src/user/entities/user.entity';
 
-const entities = [User, Item, Address,Order,OrderOfProducts,ChatParticipent, ChatMessage, ChatRoom];
+const entities = [
+  User,
+  Item,
+  Address,
+  Order,
+  OrderOfProducts,
+  ChatParticipent,
+  ChatMessage,
+  ChatRoom,
+];
 export const typeOrmConfig = (): TypeOrmModuleOptions => ({
   type: 'mysql',
   host: 'localhost',
   port: parseInt(process.env.DB_PORT ?? '3306'),
   username: 'root',
-  password: '123456',
+  password: '',
   database: 'food-app',
 
   entities: entities,
